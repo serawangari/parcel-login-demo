@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parcel Dashboard</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Parcel Details</h2>
+    <p><strong>Owner Name:</strong> <span id="owner"></span></p>
+    <p><strong>Land Rate Status:</strong> <span id="rates"></span></p>
+    <p><strong>Zone:</strong> <span id="zone"></span></p>
+    <p><strong>Parcel Number:</strong> <span id="parcelno"></span></p>
+  </div>
+  <script>
+    const parcel = JSON.parse(sessionStorage.getItem('parcelData'));
+    if (parcel) {
+      document.getElementById('owner').textContent = parcel.OwnerName || "N/A";
+      document.getElementById('rates').textContent = parcel.LandRateStatus || "N/A";
+      document.getElementById('zone').textContent = parcel.Zone || "N/A";
+      document.getElementById('parcelno').textContent = parcel.ParcelNumber || "N/A";
+    } else {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
