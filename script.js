@@ -8,23 +8,23 @@ async function checkParcel() {
     return;
   }
 
-  // Your Feature Layer URL (with layer index)
+  // ArcGIS REST JS Configuration
+  const apiKey = "AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB"; // Replace with your API key
   const featureLayerUrl = "https://services7.arcgis.com/2QnOkWUxsp4IWuaT/arcgis/rest/services/SOKONI_CADASTRE_WFL1/FeatureServer/0";
-  
-  const params = new URLSearchParams({
-    where: `ID='${idNumber}'`, // Use exact field name
-    outFields: '*',
-    f: 'json',
-    token: 'AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB' // Replace with your actual API key
-  });
 
   try {
-    const response = await fetch(`${featureLayerUrl}/query?${params}`);
-    const data = await response.json();
-    console.log("API Response:", data); // Debugging
+    // Query the feature layer using ArcGIS REST JS
+    const response = await arcgisRest.queryFeatures({
+      url: featureLayerUrl,
+      where: `ID='${idNumber}'`, // Use exact field name
+      outFields: ["*"],
+      authentication: arcgisRest.ApiKeyManager.fromKey(apiKey)
+    });
 
-    if (data.features?.length > 0) {
-      sessionStorage.setItem("parcelData", JSON.stringify(data.features[0].attributes));
+    console.log("API Response:", response); // Debugging
+
+    if (response.features.length > 0) {
+      sessionStorage.setItem("parcelData", JSON.stringify(response.features[0].attributes));
       window.location.href = "dashboard.html";
     } else {
       errorDiv.textContent = "No parcel found for this ID number.";
