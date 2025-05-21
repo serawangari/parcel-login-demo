@@ -1,5 +1,5 @@
 async function checkParcel() {
-  const idNumber = document.getElementById("idNumber").value;
+  const idNumber = document.getElementById("idNumber").value.trim();
   const errorDiv = document.getElementById("error");
   errorDiv.textContent = "";
 
@@ -8,19 +8,21 @@ async function checkParcel() {
     return;
   }
 
+  // Your Feature Layer URL (with layer index)
   const featureLayerUrl = "https://services7.arcgis.com/2QnOkWUxsp4IWuaT/arcgis/rest/services/SOKONI_CADASTRE_WFL1/FeatureServer/0";
+  
   const params = new URLSearchParams({
-    where: `ID='${idNumber}'`, // Use correct field name
+    where: `ID='${idNumber}'`, // Use exact field name
     outFields: '*',
     f: 'json',
-    token: '3NKHt6i2urmWtqOuugvr9UMm2p1e3MFoJLiRuL07Loq8jd2jmQlI675K_ae72BaSWoWx3P1HLbYZ9w9G1Sb2K-OzXCI85LBMYXGslszRVYAG-bhtBg7tNC_mPUuMRYzK' // API key added here
+    token: 'AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB' // Replace with your actual API key
   });
 
   try {
     const response = await fetch(`${featureLayerUrl}/query?${params}`);
-    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-    
     const data = await response.json();
+    console.log("API Response:", data); // Debugging
+
     if (data.features?.length > 0) {
       sessionStorage.setItem("parcelData", JSON.stringify(data.features[0].attributes));
       window.location.href = "dashboard.html";
