@@ -9,18 +9,18 @@
 <body>
   <div class="container">
     <h2>Your Parcel Details</h2>
-    <p><strong>Owner Name:</strong> <span id="owner"></span></p>
-    <p><strong>Land Rate Status:</strong> <span id="rates"></span></p>
-    <p><strong>Zone:</strong> <span id="zone"></span></p>
-    <p><strong>Parcel Number:</strong> <span id="parcelno"></span></p>
+    <p><strong>Owner Name:</strong> <span id="Land_Owner"></span></p>
+    <p><strong>Land Rate Status:</strong> <span id="Rate"></span></p>
+    <p><strong>Zone:</strong> <span id="Land_Use"></span></p>
+    <p><strong>Parcel Number:</strong> <span id="Parcel"></span></p>
   </div>
   <script>
     const parcel = JSON.parse(sessionStorage.getItem('parcelData'));
     if (parcel) {
-      document.getElementById('owner').textContent = parcel.OwnerName || "N/A";
-      document.getElementById('rates').textContent = parcel.LandRateStatus || "N/A";
-      document.getElementById('zone').textContent = parcel.Zone || "N/A";
-      document.getElementById('parcelno').textContent = parcel.ParcelNumber || "N/A";
+      document.getElementById('Land_Owner').textContent = parcel.OwnerName || "N/A";
+      document.getElementById('Rate').textContent = parcel.LandRateStatus || "N/A";
+      document.getElementById('Land_Use').textContent = parcel.Zone || "N/A";
+      document.getElementById('Parcel').textContent = parcel.ParcelNumber || "N/A";
     } else {
       window.location.href = "index.html";
     }
