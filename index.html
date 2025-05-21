@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Parcel Login</title>
-  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <div class="container">
-    <h2>Parcel Information Portal Login</h2>
-    <input type="text" id="idNumber" placeholder="Enter your ID number" />
-    <button onclick="checkParcel()">Submit</button>
+  <!-- Your existing login form -->
+  <form id="loginForm">
+    <input type="text" id="idNumber" placeholder="Enter ID Number">
+    <button type="button" onclick="checkParcel()">Submit</button>
     <div id="error"></div>
-  </div>
-  <script src="script.js"></script>
+  </form>
+
+  <!-- Add ArcGIS REST JS scripts here -->
+  <script src="https://unpkg.com/@esri/arcgis-rest-request@4.0.0/dist/bundled/request.umd.js"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-feature-layer@4.0.0/dist/bundled/feature-layer.umd.js"></script>
+  <script src="app.js"></script> <!-- Your custom JS file with checkParcel() -->
 </body>
 </html>
