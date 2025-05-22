@@ -3,17 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Parcel Login</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <title>Parcel Lookup</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-feature-layer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>Parcel Information Portal Login</h2>
-    <input type="text" id="idNumber" placeholder="Enter your ID number" />
-    <button onclick="checkParcel()">Submit</button>
-    <div id="error"></div>
+    <h1>Land Parcel Lookup</h1>
+    <form id="lookup-form">
+      <label for="idNumber">Enter Your ID Number:</label>
+      <input type="number" id="idNumber" required />
+      <button type="submit">Search</button>
+    </form>
+    <div id="loading" style="display:none;">Searching...</div>
+    <div id="results"></div>
+    <button id="download" style="display:none;">Download PDF</button>
   </div>
-  <script src="https://unpkg.com/@esri/arcgis-rest-request@4.0.0/dist/bundled/request.umd.js"></script>
-<script src="https://unpkg.com/@esri/arcgis-rest-feature-layer@4.0.0/dist/bundled/feature-layer.umd.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
