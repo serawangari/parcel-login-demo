@@ -1,3 +1,6 @@
+<script src="https://unpkg.com/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.min.js"></script>
+<script src="https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/arcgis-rest-feature-layer.umd.min.js"></script>
+
 const authentication = arcgisRest.ApiKeyManager.fromKey("AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB");
 
   document.querySelector('form').addEventListener('submit', function (e) {
