@@ -1,26 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Parcel Lookup</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
-<script src="https://unpkg.com/@esri/arcgis-rest-feature-layer"></script>
+  <meta charset="UTF-8">
+  <title>Land Parcel Lookup</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Land Parcel Lookup</h1>
-    <form id="lookup-form">
-      <label for="idNumber">Enter Your ID Number:</label>
-      <input type="number" id="idNumber" required />
-      <button type="submit">Search</button>
-    </form>
-    <div id="loading" style="display:none;">Searching...</div>
-    <div id="results"></div>
-    <button id="download" style="display:none;">Download PDF</button>
-  </div>
-  <script src="script.js"></script>
+  <h2>Find Your Parcel Info</h2>
+  <form id="idForm">
+    <input type="number" id="idNumber" placeholder="Enter your ID number" required />
+    <button type="submit">Search</button>
+  </form>
+
+  <div id="results"></div>
+
+  <!-- ArcGIS REST JS Libraries -->
+  <script src="https://unpkg.com/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.min.js"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/arcgis-rest-feature-layer.umd.min.js"></script>
+
+  <script>
+    const authentication = arcgisRest.ApiKeyManager.fromKey("YOUR_API_KEY_HERE");
+
+    document.getElementById('idForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id = parseFloat(document.getElementById("idNumber").value);
+
+      arcgisRestFeatureLayer.queryFeatures({
+        url: "https://services7.arcgis.com/2QnOkWUxsp4IWuaT/arcgis/rest/services/SOKONI_CADASTRE_WFL1/FeatureServer/0",
+        where: `ID_Number = ${id}`,
+        outFields: [
+          "Parcel", "Block_No", "SHAPE__Length", "SHAPE__Area", "Land_Owner", "Contact",
+          "Land_Value", "Rate", "Rate_Paid", "Rate_Balance", "Date_Paid", "Land_Use"
+        ],
+        authentication,
+        returnGeometry: false,
+        f: "json"
+      }).then(response => {
+        if (response.features.length === 0) {
+          document.getElementById("results").innerHTML = "❌ No parcel found for that ID.";
+        } else {
+          const attrs = response.features[0].attributes;
+          let table = `<table border="1"><tr><th>Field</th><th>Value</th></tr>`;
+          for (const key in attrs) {
+            table += `<tr><td>${key}</td><td>${attrs[key]}</td></tr>`;
+          }
+          table += "</table>";
+          document.getElementById("results").innerHTML = table;
+        }
+      }).catch(error => {
+        console.error("Query error:", error);
+        document.getElementById("results").innerHTML = "❌ Error fetching data.";
+      });
+    });
+  </script>
 </body>
 </html>
-
