@@ -1,42 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Land Parcel Lookup</title>
-    <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-
-    form {
-      margin-bottom: 20px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 80%;
-      margin: 20px 0;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-    }
-
-    th {
-      background-color: #f4f4f4;
-      text-align: left;
-    }
-
-    #results {
-      margin-top: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h2>Find Your Parcel Info</h2>
+
   <form id="idForm">
     <input type="number" id="idNumber" placeholder="Enter your ID Number" required />
     <button type="submit">Search</button>
@@ -48,6 +20,7 @@
   <script src="https://unpkg.com/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.min.js"></script>
   <script src="https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/arcgis-rest-feature-layer.umd.min.js"></script>
 
+  <!-- Your main JavaScript file -->
   <script src="script.js"></script>
 </body>
 </html>
