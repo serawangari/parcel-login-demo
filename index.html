@@ -18,39 +18,41 @@
   <script src="https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/arcgis-rest-feature-layer.umd.min.js"></script>
 
   <script>
-    const authentication = arcgisRest.ApiKeyManager.fromKey("AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB");
+  const authentication = arcgisRest.ApiKeyManager.fromKey("AAPTxy8BH1VEsoebNVZXo8HurDOX8MVyCb_dbn99eZGxwizKZdHxKriGoodAC-X1Tio6BtM0bNqcepyh1pm2JEnP2KpMyoiJvEJWpIseZuE3H6mzuYqo35u3EKAAgTEwkLAD_HWpEL4PZ9vxuZM46UJGf20IKVsa89aQ9HjeeAyPen43Bp7pr_epR9YcfsoaO1FxksPrp3I8fEGEsO3PhYDxiaEvytU0Xh_tN6jAQ-RlWMTtZlt6Fc20zZqNXEjZtEn2AT1_IUAjw0JB");
 
-    document.getElementById('idForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const id = parseFloat(document.getElementById("idNumber").value);
+  const { queryFeatures } = arcgisRestFeatureLayer;
 
-      arcgisRestFeatureLayer.queryFeatures({
-        url: "https://services7.arcgis.com/2QnOkWUxsp4IWuaT/arcgis/rest/services/SOKONI_CADASTRE_WFL1/FeatureServer/0",
-        where: `ID = ${id}`,
-        outFields: [
-          "Parcel", "Block_No", "SHAPE__Length", "SHAPE__Area", "Land_Owner", "Contact",
-          "Land_Value", "Rate", "Rate_Paid", "Rate_Balance", "Date_Paid", "Land_Use"
-        ],
-        authentication,
-        returnGeometry: false,
-        f: "json"
-      }).then(response => {
-        if (response.features.length === 0) {
-          document.getElementById("results").innerHTML = "❌ No parcel found for that ID.";
-        } else {
-          const attrs = response.features[0].attributes;
-          let table = `<table border="1"><tr><th>Field</th><th>Value</th></tr>`;
-          for (const key in attrs) {
-            table += `<tr><td>${key}</td><td>${attrs[key]}</td></tr>`;
-          }
-          table += "</table>";
-          document.getElementById("results").innerHTML = table;
+  document.getElementById('idForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = parseFloat(document.getElementById("idNumber").value);
+
+    queryFeatures({
+      url: "https://services7.arcgis.com/2QnOkWUxsp4IWuaT/arcgis/rest/services/SOKONI_CADASTRE_WFL1/FeatureServer/0",
+      where: `ID = ${id}`,  // Update this field name based on your layer!
+      outFields: [
+        "Parcel", "Block_No", "SHAPE__Length", "SHAPE__Area", "Land_Owner", "Contact",
+        "Land_Value", "Rate", "Rate_Paid", "Rate_Balance", "Date_Paid", "Land_Use"
+      ],
+      authentication,
+      returnGeometry: false,
+      f: "json"
+    }).then(response => {
+      if (response.features.length === 0) {
+        document.getElementById("results").innerHTML = "❌ No parcel found for that ID.";
+      } else {
+        const attrs = response.features[0].attributes;
+        let table = `<table><tr><th>Field</th><th>Value</th></tr>`;
+        for (const key in attrs) {
+          table += `<tr><td>${key}</td><td>${attrs[key]}</td></tr>`;
         }
-      }).catch(error => {
-        console.error("Query error:", error);
-        document.getElementById("results").innerHTML = "❌ Error fetching data.";
-      });
+        table += "</table>";
+        document.getElementById("results").innerHTML = table;
+      }
+    }).catch(error => {
+      console.error("Query error:", error);
+      document.getElementById("results").innerHTML = "❌ Error fetching data.";
     });
-  </script>
+  });
+</script>
 </body>
 </html>
