@@ -10,7 +10,7 @@ async function checkParcel() {
 
   const url = "https://services.arcgis.com/YOUR_ORG/arcgis/rest/services/Parcels/FeatureServer/0/query";
   const params = new URLSearchParams({
-    where: `IDNumber='${idNumber}'`,
+    where: `ID='${idNumber}'`,
     outFields: '*',
     f: 'json'
   });
